@@ -25,10 +25,9 @@ runs:
           options(pak.no_extra_messages = TRUE)
           install.packages("pak", repos = "https://r-lib.github.io/p/pak/${{ inputs.pak-version }}/")
           pkg_deps <- NULL
-          pkg_deps <- pak::pkg_deps("local::.", dependencies = TRUE)
-          saveRDS(pkg_deps, file.path(Sys.getenv("GITHUB_WORKSPACE"), .github/r-depends.rds"))
+          pkg_deps <- pak::pkg_deps("local::${{ inputs.working-directory }}", dependencies = TRUE)
+          saveRDS(pkg_deps, ".github/r-depends.rds")
         shell: Rscript {0}
-        working-directory: ${{ inputs.working-directory }}
 
       - name: Get R and OS version
         id: get-version
@@ -37,7 +36,6 @@ runs:
           cat("::set-output name=r-version::", R.Version()$version.string, "\n", sep = "")
           cat("::endgroup::\n")
         shell: Rscript {0}
-        working-directory: ${{ inputs.working-directory }}
 
       - name: Restore R package cache
         uses: actions/cache@v2
@@ -75,7 +73,6 @@ runs:
           sessioninfo::session_info("!installed", include_base = TRUE)
           cat("::endgroup::\n")
         shell: Rscript {0}
-        working-directory: ${{ inputs.working-directory }}
 
       - name: Don't use tar 1.30 from Rtools35 to store the cache
         shell: bash
@@ -83,4 +80,3 @@ runs:
           if command -v /c/Rtools/bin/tar && /c/Rtools/bin/tar --version | grep -q 'tar (GNU tar) 1.30'
             then echo 'C:/Program Files/Git/usr/bin' >> $GITHUB_PATH
           fi
-        working-directory: ${{ inputs.working-directory }}
