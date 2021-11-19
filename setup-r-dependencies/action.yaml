@@ -47,7 +47,6 @@ runs:
             !${{ env.R_LIBS_USER }}/pak
           key: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{inputs.cache-version }}-${{ hashFiles('.github/r-depends.rds') }}
           restore-keys: ${{ steps.get-version.outputs.os-version }}-${{ steps.get-version.outputs.r-version }}-${{inputs.cache-version }}-
-        working-directory: ${{ inputs.working-directory }}
 
       - name: Install dependencies
         run: |
