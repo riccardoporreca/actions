@@ -44,7 +44,7 @@ jobs:
           needs: check
           working-directory: test_pkg_subdir
 
-      - uses: r-lib/actions/check-r-package@v2-branch
+      - uses: riccardoporreca/actions/check-r-package@feature/614-fix-check-dir-working-dir
         with:
           check-dir: '"non-default-dir"'
           upload-results: true
