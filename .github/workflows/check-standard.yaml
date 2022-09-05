@@ -42,9 +42,11 @@ jobs:
         with:
           extra-packages: any::rcmdcheck
           needs: check
+          working-directory: test_pkg_subdir
 
       - uses: r-lib/actions/check-r-package@v2-branch
         with:
           check-dir: '"non-default-dir"'
           upload-results: true
           upload-snapshots: true
+          working-directory: test_pkg_subdir
